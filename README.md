@@ -22,8 +22,6 @@ PFCそれぞれの栄養素について計算をするアプリです
   - 入力されたことを想定して、テストケースに確認すべきケースを実装しました
 
 ## 使用技術
-- Java
-- Gradle
 <img src="https://skillicons.dev/icons?i=java,gradle" /> <br /><br />
 
 ## テスト
