@@ -35,7 +35,7 @@ public class NutrientCalculation {
     }
 
     /**
-     * 膳量が0以上であるかを確認するメソッド
+     * 摂取量が0以上であるかを確認するメソッド
      *
      * @param intake 摂取量
      * @throws IllegalArgumentException 摂取量が負の場合
