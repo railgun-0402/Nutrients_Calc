@@ -1,0 +1,42 @@
+name: Basic CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Run Checkstyle
+        run: ./gradlew check
+
+      - name: Run SpotBugs
+        run: |
+          ./gradlew spotbugsMain spotbugsTest
+        continue-on-error: true
+
+      - name: Upload SpotBugs report
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotbugs-reports
+          path: build/reports/spotbugs
+
+      - name: Set up Gradle
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Run Gradle tests
+        run: ./gradlew test
