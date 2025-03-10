@@ -1,6 +1,7 @@
 package org.pfc;
 
 import org.pfc.application.FoodCalorieCalc;
+import org.pfc.domain.service.CalorieCalcService;
 
 /**
  * Main
@@ -10,13 +11,17 @@ import org.pfc.application.FoodCalorieCalc;
 public class Main {
     public static void main(String[] args) {
         try {
+            // カロリー計算のインスタンス作成
+            CalorieCalcService calorieCalcService = new CalorieCalcService();
+            FoodCalorieCalc foodCalorieCalc = new FoodCalorieCalc(calorieCalcService);
+
             // 白米の栄養素
-            FoodCalorieCalc riceNutrient = new FoodCalorieCalc(2.5, 0.3, 37.1);
+            int riceCalories = foodCalorieCalc.calcTotalCalorie(2.5, 0.3, 37.1);
             // 納豆の栄養素
-            FoodCalorieCalc nattoNutrient = new FoodCalorieCalc(16.5, 10.0, 12.1);
+            int nattoCalories = foodCalorieCalc.calcTotalCalorie(16.5, 10.0, 12.1);
 
             // 各栄養素のカロリー計算
-            int totalCalories = riceNutrient.calcTotalCalorie() + nattoNutrient.calcTotalCalorie();
+            int totalCalories = riceCalories + nattoCalories;
 
             // 結果の表示
             System.out.println("納豆ご飯の総カロリー: " + totalCalories + " kcal"); // 具体的な合計カロリーを表示
