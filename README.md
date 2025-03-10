@@ -66,7 +66,7 @@
   - 入力されたことを想定して、テストケースに確認すべきケースを実装しました
 
 ## 使用技術
-<img src="https://skillicons.dev/icons?i=java,gradle" /> <br /><br />
+<img src="https://skillicons.dev/icons?i=java,gradle,github,githubactions" /> <br /><br />
 
 ## テスト
 ### 使用技術
