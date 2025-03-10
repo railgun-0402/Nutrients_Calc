@@ -1,7 +1,6 @@
 package org.pfc.application;
 
-import org.pfc.domain.model.PFC;
-import org.pfc.domain.service.CalorieCalc;
+import org.pfc.domain.service.CalorieCalcService;
 import org.pfc.utils.DecimalUtils;
 
 /**
@@ -9,11 +8,23 @@ import org.pfc.utils.DecimalUtils;
  * 摂取量からカロリーを計算するユースケース
  */
 public class FoodCalorieCalc {
-    /** PFC摂取量のmodel */
-    private final PFC pfc;
+    /** カロリー計算サービス */
+    private final CalorieCalcService calorieCalcService;
 
     /** コンストラクタ */
-    public FoodCalorieCalc(double proteinIntake, double fatIntake, double carbohydrateIntake) {
+    public FoodCalorieCalc(CalorieCalcService calorieCalcService) {
+        this.calorieCalcService = calorieCalcService;
+    }
+
+    /**
+     * 摂取量から総カロリーを計算するメソッド
+     *
+     * @param proteinIntake      タンパク質摂取量(g)
+     * @param fatIntake          脂質摂取量(g)
+     * @param carbohydrateIntake 炭水化物摂取量(g)
+     * @return int 総カロリー量
+     */
+    public int calcTotalCalorie(double proteinIntake, double fatIntake, double carbohydrateIntake) {
         // バリデーションチェック
         validateNutrientIntake(proteinIntake);
         validateNutrientIntake(fatIntake);
@@ -24,7 +35,8 @@ public class FoodCalorieCalc {
         fatIntake = DecimalUtils.roundToIntakeDecimal(fatIntake);
         carbohydrateIntake = DecimalUtils.roundToIntakeDecimal(carbohydrateIntake);
 
-        this.pfc = new PFC(proteinIntake, fatIntake, carbohydrateIntake);
+        // カロリー計算の実行
+        return calorieCalcService.calculateTotalCalories(proteinIntake, fatIntake, carbohydrateIntake);
     }
 
     /**
@@ -37,15 +49,5 @@ public class FoodCalorieCalc {
         if (intake < 0) {
             throw new IllegalArgumentException("摂取量がマイナス値になっています: " + intake);
         }
-    }
-
-    /**
-     * PFC摂取量から総カロリーに変換する計算を実行
-     *
-     * @return int 総カロリー量
-     */
-    public int calcTotalCalorie() {
-        CalorieCalc calorieCalc = new CalorieCalc(pfc);
-        return calorieCalc.calculateTotalCalories();
     }
 }
